@@ -2,6 +2,12 @@ export REPOSITORY=github
 
 dockerd --seccomp-profile unconfined --experimental &> /dev/null &
 
+if [ ! -f /workspaces/$REPOSITORY/windows/windows.boot ]; then
+    {
+        echo "data.img"
+    } > /workspaces/$REPOSITORY/windows/windows.boot
+fi
+
 if docker compose --file /workspaces/$REPOSITORY/windows/windows.yaml images | grep --quiet "windows"; then
     docker compose --file /workspaces/$REPOSITORY/windows/windows.yaml start
 else
