@@ -1,12 +1,7 @@
 export REPOSITORY=github
 
-rm --recursive --force /tmp/$REPOSITORY
-mkdir --parents /tmp/$REPOSITORY/windows
-mv --force /workspaces/$REPOSITORY/.devcontainer /tmp/$REPOSITORY/.devcontainer
-
-rm --recursive --force /workspaces/$REPOSITORY
 mkdir --parents /workspaces/$REPOSITORY/windows
-mv --force /tmp/$REPOSITORY/.devcontainer /workspaces/$REPOSITORY/.devcontainer
+mkdir --parents /tmp/$REPOSITORY/windows
 
 cp /workspaces/$REPOSITORY/.devcontainer/helpers/start /usr/local/bin/start
 cp /workspaces/$REPOSITORY/.devcontainer/helpers/stop /usr/local/bin/stop
@@ -23,20 +18,28 @@ chmod +x /usr/local/bin/rebuild
 chmod +x /usr/local/bin/remove
 chmod +x /usr/local/bin/kill
 
-wget https://github.com/ItzLevvie/artifacts/releases/download/27924-1/data.7z.001 --output-document /tmp/$REPOSITORY/windows/data.7z.001
-wget https://github.com/ItzLevvie/artifacts/releases/download/27924-1/data.7z.002 --output-document /tmp/$REPOSITORY/windows/data.7z.002
-wget https://github.com/ItzLevvie/artifacts/releases/download/27924-1/data.7z.003 --output-document /tmp/$REPOSITORY/windows/data.7z.003
-wget https://github.com/ItzLevvie/artifacts/releases/download/27924-1/data.7z.004 --output-document /tmp/$REPOSITORY/windows/data.7z.004
+if [ -f /workspaces/$REPOSITORY/windows/data.img ] && ! qemu-img info /workspaces/$REPOSITORY/windows/data.img > /dev/null 2>&1; then
+    rm --force /workspaces/$REPOSITORY/windows/data.img
+fi
 
-7z x /tmp/$REPOSITORY/windows/data.7z.001 -o/tmp/$REPOSITORY/windows
-rm --force /tmp/$REPOSITORY/windows/data.7z.00*
-qemu-img convert -p -O raw -o preallocation=off /tmp/$REPOSITORY/windows/data.vhdx /tmp/$REPOSITORY/windows/data.img
-rm --force /tmp/$REPOSITORY/windows/data.vhdx
-cp /tmp/$REPOSITORY/windows/data.img /workspaces/$REPOSITORY/windows/data.img
+if [ ! -f /workspaces/$REPOSITORY/windows/data.img ]; then
+    wget https://github.com/ItzLevvie/artifacts/releases/download/27924-1/data.7z.001 --output-document /tmp/$REPOSITORY/windows/data.7z.001
+    wget https://github.com/ItzLevvie/artifacts/releases/download/27924-1/data.7z.002 --output-document /tmp/$REPOSITORY/windows/data.7z.002
+    wget https://github.com/ItzLevvie/artifacts/releases/download/27924-1/data.7z.003 --output-document /tmp/$REPOSITORY/windows/data.7z.003
+    wget https://github.com/ItzLevvie/artifacts/releases/download/27924-1/data.7z.004 --output-document /tmp/$REPOSITORY/windows/data.7z.004
 
-{
-    echo "data.img"
-} > /workspaces/$REPOSITORY/windows/windows.boot
+    7z x /tmp/$REPOSITORY/windows/data.7z.001 -o/tmp/$REPOSITORY/windows
+    rm --force /tmp/$REPOSITORY/windows/data.7z.00*
+    qemu-img convert -p -O raw -o preallocation=off /tmp/$REPOSITORY/windows/data.vhdx /tmp/$REPOSITORY/windows/data.img
+    rm --force /tmp/$REPOSITORY/windows/data.vhdx
+    cp /tmp/$REPOSITORY/windows/data.img /workspaces/$REPOSITORY/windows/data.img
+fi
+
+if [ ! -f /workspaces/$REPOSITORY/windows/windows.boot ]; then
+    {
+        echo "data.img"
+    } > /workspaces/$REPOSITORY/windows/windows.boot
+fi
 
 {
     echo "services:"
