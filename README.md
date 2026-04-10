@@ -6,6 +6,10 @@ It installs Tailscale which allows you to Remote Desktop Protocol (RDP) into Win
 
 It is based on the [dockur/windows](https://github.com/dockur/windows) repository but contains customizations and optimizations for GitHub Codespaces.
 
+> [!NOTE]
+> The devcontainer is configured as a persistent `debian:bookworm-slim` base with KVM device access.
+> Automatic setup hooks are disabled, so installation and runtime scripts are now manual.
+
 > [!CAUTION]
 > This repository should be used for development and testing purposes only. <br>
 > I am not responsible for any issues such as account suspensions or data loss.
