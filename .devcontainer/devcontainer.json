@@ -1,5 +1,5 @@
 {
-    "name": "Windows 11 (Canary) + Tailscale (unstable)",
+    "name": "Debian Slim + KVM (manual setup)",
     "build": {
         "dockerfile": "Dockerfile"
     },
@@ -45,10 +45,5 @@
     "containerUser": "root",
     "remoteUser": "root",
     "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/github,type=bind,consistency=cached",
-    "workspaceFolder": "/workspaces/github",
-    "initializeCommand": "sudo bash .devcontainer/initializeCommand.sh",
-    "onCreateCommand": "sudo bash .devcontainer/onCreateCommand.sh",
-    "postStartCommand": "sudo bash .devcontainer/postStartCommand.sh",
-    "postAttachCommand": "sudo bash .devcontainer/postAttachCommand.sh",
-    "waitFor": "postStartCommand"
+    "workspaceFolder": "/workspaces/github"
 }
