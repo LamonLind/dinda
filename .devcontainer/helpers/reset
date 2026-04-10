@@ -1,7 +1,7 @@
 export REPOSITORY=github
 
 kill
-rm --force /tmp/$REPOSITORY/windows/data.img
+rm --force /tmp/$REPOSITORY/windows/data.qcow2
 
-cp --reflink=auto /tmp/$REPOSITORY/windows/data.base.img /tmp/$REPOSITORY/windows/data.img
+qemu-img create -f qcow2 -F raw -b /tmp/$REPOSITORY/windows/data.img /tmp/$REPOSITORY/windows/data.qcow2
 start
