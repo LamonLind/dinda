@@ -30,13 +30,13 @@ wget https://github.com/ItzLevvie/artifacts/releases/download/27924-1/data.7z.00
 
 7z x /tmp/$REPOSITORY/windows/data.7z.001 -o/tmp/$REPOSITORY/windows
 rm --force /tmp/$REPOSITORY/windows/data.7z.00*
-qemu-img convert -p -O raw -o preallocation=off /tmp/$REPOSITORY/windows/data.vhdx /tmp/$REPOSITORY/windows/data.img
+qemu-img convert -p -O raw -o preallocation=off /tmp/$REPOSITORY/windows/data.vhdx /tmp/$REPOSITORY/windows/data.base.img
 rm --force /tmp/$REPOSITORY/windows/data.vhdx
-cp /tmp/$REPOSITORY/windows/data.img /workspaces/$REPOSITORY/windows/data.img
+cp --reflink=auto /tmp/$REPOSITORY/windows/data.base.img /tmp/$REPOSITORY/windows/data.img
 
 {
     echo "data.img"
-} > /workspaces/$REPOSITORY/windows/windows.boot
+} > /tmp/$REPOSITORY/windows/windows.boot
 
 {
     echo "services:"
@@ -46,8 +46,7 @@ cp /tmp/$REPOSITORY/windows/data.img /workspaces/$REPOSITORY/windows/data.img
     echo "    environment:"
     echo "      CPU_CORES: $(nproc --all)"
     echo "      RAM_SIZE: $(free --gibi | grep 'Mem:' | awk '{print $7}')G"
-    echo "      DISK_SIZE: $(df --human-readable --block-size G /workspaces | grep '/workspaces' | awk '{print $4}')"
-    echo "      DISK2_SIZE: $(df --human-readable --block-size G /tmp | grep '/tmp' | awk '{print $4}')"
+    echo "      DISK_SIZE: $(df --human-readable --block-size G /tmp | grep '/tmp' | awk '{print $4}')"
     echo "      BOOT_MODE: windows"
     echo "      TPM: Y"
     echo "      KVM: Y"
@@ -71,8 +70,7 @@ cp /tmp/$REPOSITORY/windows/data.img /workspaces/$REPOSITORY/windows/data.img
     echo "    security_opt:"
     echo "      - seccomp=unconfined"
     echo "    volumes:"
-    echo "      - /workspaces/$REPOSITORY/windows:/storage"
-    echo "      - /tmp/$REPOSITORY/windows:/storage2"
+    echo "      - /tmp/$REPOSITORY/windows:/storage"
     echo "      - /workspaces/$REPOSITORY:/data"
     echo "    privileged: true"
     echo "    restart: on-failure"

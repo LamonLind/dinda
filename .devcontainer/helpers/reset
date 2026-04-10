@@ -1,7 +1,7 @@
 export REPOSITORY=github
 
 kill
-rm --force /workspaces/$REPOSITORY/windows/data.img
+rm --force /tmp/$REPOSITORY/windows/data.img
 
-cp /tmp/$REPOSITORY/windows/data.img /workspaces/$REPOSITORY/windows/data.img
+cp --reflink=auto /tmp/$REPOSITORY/windows/data.base.img /tmp/$REPOSITORY/windows/data.img
 start

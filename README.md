@@ -9,6 +9,7 @@ It is based on the [dockur/windows](https://github.com/dockur/windows) repositor
 > [!NOTE]
 > The devcontainer is configured as a persistent `debian:bookworm-slim` base with KVM device access.
 > Automatic setup hooks are disabled, so installation and runtime scripts are now manual.
+> Heavy Docker and VM disk artifacts are placed under `/tmp` to preserve `/workspaces` storage on 32 GB Codespaces.
 
 > [!CAUTION]
 > This repository should be used for development and testing purposes only. <br>
@@ -114,7 +115,7 @@ This repository contains a few helper scripts[^3] to get you started.
 | stop | Stops Windows 11 |
 | restart | Restarts Windows 11 |
 | kill | Forcefully stops Windows 11 |
-| reset | Resets Windows 11 to a clean state <br><br> Note: This will only work if the `/tmp/github/windows/data.img` file exists |
+| reset | Resets Windows 11 to a clean state <br><br> Note: This will only work if the `/tmp/github/windows/data.base.img` file exists |
 | remove | Removes the `windows` container |
 | rebuild | Performs a full rebuild of your GitHub Codespaces |
 
