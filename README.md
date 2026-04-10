@@ -10,6 +10,7 @@ It is based on the [dockur/windows](https://github.com/dockur/windows) repositor
 > The devcontainer is configured as a persistent `debian:bookworm-slim` base with KVM device access.
 > Automatic setup hooks are disabled, so installation and runtime scripts are now manual.
 > Heavy Docker and VM disk artifacts are placed under `/tmp` to preserve `/workspaces` storage on 32 GB Codespaces.
+> VS Code server and cache data are also redirected to `/tmp` to reduce persistent storage usage.
 
 > [!CAUTION]
 > This repository should be used for development and testing purposes only. <br>

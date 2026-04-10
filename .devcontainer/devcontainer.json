@@ -44,6 +44,14 @@
     "privileged": true,
     "containerUser": "root",
     "remoteUser": "root",
+    "containerEnv": {
+        "VSCODE_AGENT_FOLDER": "/tmp/.vscode-server",
+        "XDG_CACHE_HOME": "/tmp/.cache"
+    },
+    "remoteEnv": {
+        "VSCODE_AGENT_FOLDER": "/tmp/.vscode-server",
+        "XDG_CACHE_HOME": "/tmp/.cache"
+    },
     "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/github,type=bind,consistency=cached",
     "workspaceFolder": "/workspaces/github"
 }
