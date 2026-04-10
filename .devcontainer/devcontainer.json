@@ -4,7 +4,7 @@
         "dockerfile": "Dockerfile"
     },
     "mounts": [
-        "source=/tmp/var-lib-docker,target=/var/lib/docker,type=bind,consistency=cached"
+        "source=/tmp/github/var-lib-docker,target=/var/lib/docker,type=bind,consistency=cached"
     ],
     "forwardPorts": [
         22,
